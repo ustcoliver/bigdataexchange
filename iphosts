@@ -1,0 +1,6 @@
+10.1.2.11 orderer1.template.com
+10.1.2.12 orderer2.template.com
+10.1.2.13 orderer3.template.com
+10.1.2.11 peer0.org1.template.com
+10.1.2.12 peer0.org2.template.com
+10.1.2.13 peer0.org3.template.com

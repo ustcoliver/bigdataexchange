@@ -1,0 +1,11 @@
+
+OrdererOrgs:
+
+  - Name: Orderer
+    Domain: template.com
+    EnableNodeOUs: true
+
+    Specs: 
+      - Hostname: orderer1
+      - Hostname: orderer2
+      - Hostname: orderer3

@@ -1,0 +1,1 @@
+[31m2023-03-13 02:55:16.738 UTC [main] InitCmd -> ERRO 001[0m Fatal error when initializing core config : Could not find config file. Please make sure that FABRIC_CFG_PATH is set to a path which contains core.yaml
