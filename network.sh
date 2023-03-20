@@ -19,7 +19,7 @@ function remoteNetworkUp() {
   for ((i=1;i<=$HOSTS;i++));
   do 
     eval ssh_host="\$SSH_HOST$i"
-    ssh $ssh_host "cd ~/${PROJECT_NAME} && bash remote-scripts/remoteUp.sh"
+    ssh $ssh_host "cd ~/${PROJECT_NAME} && bash remote-scripts/remote.sh up"
   done
   successln "\n Remote START network success ! \n"
 }
@@ -32,7 +32,7 @@ function remoteNetworkDown() {
   for ((i=1;i<=$HOSTS;i++));
   do
     eval ssh_host="\$SSH_HOST$i"
-    ssh $ssh_host "cd ~/${PROJECT_NAME} && bash remote-scripts/remoteDown.sh"
+    ssh $ssh_host "cd ~/${PROJECT_NAME} && bash remote-scripts/remote.sh down"
   done
   successln "\n Remote STOP network success ! \n"
 }
@@ -85,7 +85,7 @@ elif [ "$COMMAND" == "up" ]; then
 elif [ "$COMMAND" == "down" ]; then
   remoteNetworkDown
 elif [ "$COMMAND" == "channel" ]; then
-  createChannel $CHANNEL_NAME 1 2 3
+  channel $CHANNEL_NAME 1 2 3
 elif [ "$COMMAND" == "restart" ]; then
   remoteNetworkDown
   clean
@@ -93,7 +93,7 @@ elif [ "$COMMAND" == "restart" ]; then
   createChannelTx $CHANNEL_PROFILE $CHANNEL_NAME
   syncConfig
   remoteNetworkUp
-  createChannel $CHANNEL_NAME 1 2 3
+  channel $CHANNEL_NAME 1 2 3
   updateAnchorPeer $CHANNEL_NAME
 elif [ "$COMMAND" == "deploy" ]; then
   deploy $CHANNEL_NAME basic chaincode/asset-transfer-basic  1 2 3

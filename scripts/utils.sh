@@ -67,7 +67,8 @@ verifyResult() {
 
 function removeDir() {
     DIR=$1
-    if [ -d "$DIR" ]; then 
+    res=$(find $DIR 2>/dev/null)
+    if [ "$res" != "" ]; then 
         set -x
         rm -rf $DIR
         set +x 
@@ -75,11 +76,13 @@ function removeDir() {
         infoln "\n $DIR not exist, skip ... \n"
     fi
 }
+# 使用find判断文件是否存在，可以使用通配符删除文件
 function removeFile() {
     FILE=$1
-    if [ -f $FILE ]; then 
+    res=$(find $FILE)
+    if [ "$res" != "" ]; then 
         set -x
-        rm $FILE
+        rm $res
         set +x 
     else
         infoln "\n $FILE not exist, skip ... \n"

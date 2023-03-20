@@ -5,3 +5,4 @@ system-genesis-block
 *.log
 vendor
 *.tag.gz
+log.txt
