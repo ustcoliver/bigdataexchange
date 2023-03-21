@@ -12,7 +12,7 @@ DELAY=3
 MAX_RETRY=3
 # 是否已经分发iphosts 到各个主机
 # distributeHost 只需运行一次
-# IPHOST_DISTRIBUTED=true
+IPHOST_DISTRIBUTED=true
 
 # 此处存一些智能合约基础环境变量
 # 默认所有智能合约都由go编写

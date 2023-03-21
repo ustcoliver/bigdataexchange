@@ -1,7 +1,7 @@
 #!/bin/bash
 export PATH=${PATH}:~/fabric-samples/bin
 
-. remote-scripts/remoteInit.sh
+
 
 # . scripts/env.sh
 . scripts/generate.sh
@@ -11,6 +11,21 @@ export PATH=${PATH}:~/fabric-samples/bin
 . scripts/deploy-utils.sh
 . scripts/deploy.sh
 
+
+function remoteNetworkInit() {
+  infoln "==========================="
+  infoln "Init the Project  "
+  infoln "==========================="
+  for ((i=1;i<=$HOSTS;i++));
+  do 
+    eval ssh_host="\$SSH_HOST$i"
+    set -x
+    scp -r iphosts remote-scripts scripts $ssh_host:"~/$PROJECT_NAME"
+    ssh -t $ssh_host "cd ~/${PROJECT_NAME} && bash remote-scripts/remote.sh init"
+    set +x
+  done
+  successln "\n Remote Init network success ! \n"
+}
 
 function remoteNetworkUp() {
   infoln "==========================="
@@ -68,7 +83,7 @@ COMMAND=$1
 if [ "$COMMAND" == "" ]; then
   echo "help message"
 elif [ "$COMMAND" == "init" ]; then
-  remoteInit
+  remoteNetworkInit
 elif [ "$COMMAND" == "generate" ]; then
   localGenerate
   createChannelTx $CHANNEL_PROFILE $CHANNEL_NAME

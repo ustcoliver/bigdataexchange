@@ -79,7 +79,7 @@ function removeDir() {
 # 使用find判断文件是否存在，可以使用通配符删除文件
 function removeFile() {
     FILE=$1
-    res=$(find $FILE)
+    res=$(find $FILE 2>/dev/null)
     if [ "$res" != "" ]; then 
         set -x
         rm $res

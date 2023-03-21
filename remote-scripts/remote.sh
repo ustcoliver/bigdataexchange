@@ -2,7 +2,7 @@
 . scripts/env.sh
 
 function remoteDown(){
-  IP=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f7)
+  IP=$(ip route | head -1 | cut -d' ' -f9)
   
   println "\n remove blockchain config and cert files on ${IP} ... \n" 
   
@@ -28,7 +28,7 @@ function remoteDown(){
 }
 
 function remoteUp(){
-  IP=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f7)
+  IP=$(ip route | head -1 | cut -d' ' -f9)
 
   echo -e "\n start docker containers by docker-compose on ${IP} ... \n"
 
@@ -50,21 +50,16 @@ function remoteInit() {
   else
     addIpHost
   fi
-  ssh ${SSH_HOST_VM1} "mkdir -p ${PROJECT_NAME}/docker ${PROJECT_NAME}/chaincode"
-  ssh ${SSH_HOST_VM2} "mkdir -p ${PROJECT_NAME}/docker ${PROJECT_NAME}/chaincode"
-  ssh ${SSH_HOST_VM3} "mkdir -p ${PROJECT_NAME}/docker ${PROJECT_NAME}/chaincode"
+  mkdir -p docker chaincode
+
 }
 
 function addIpHost(){
-  infoln "================================================"
-  infoln "distribute ip hosts and insert to /etc/hosts ..."
-  infoln "================================================"
-  scp iphosts ${SSH_HOST_VM1}:~/${PROJECT_NAME} 
-  scp iphosts ${SSH_HOST_VM2}:~/${PROJECT_NAME}
-  scp iphosts ${SSH_HOST_VM3}:~/${PROJECT_NAME}
-  ssh -t  ${SSH_HOST_VM1} "cat ~/${PROJECT_NAME}/iphosts | sudo tee -a /etc/hosts > /dev/null"
-  ssh -t  ${SSH_HOST_VM2} "cat ~/${PROJECT_NAME}/iphosts | sudo tee -a /etc/hosts > /dev/null"
-  ssh -t  ${SSH_HOST_VM3} "cat ~/${PROJECT_NAME}/iphosts | sudo tee -a /etc/hosts > /dev/null"
+  IP=$(ip route | head -1 | cut -d' ' -f9)
+  infoln "distribute ip hosts and insert to /etc/hosts on $IP..."
+  cat ~/${PROJECT_NAME}/iphosts | sudo tee -a /etc/hosts > /dev/null
+  infoln "\n after that ... \n"
+  cat /etc/hosts
 }
 
 
