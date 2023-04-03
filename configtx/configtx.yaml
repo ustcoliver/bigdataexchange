@@ -233,9 +233,9 @@ Profiles:
                   ServerTLSCert: ../organizations/ordererOrganizations/template.com/orderers/orderer3.template.com/tls/server.crt
             
             Addresses:
-                - orderer0.template.com:7050
                 - orderer1.template.com:7050
                 - orderer2.template.com:7050
+                - orderer3.template.com:7050
             
             Organizations:
             - *OrdererOrg
