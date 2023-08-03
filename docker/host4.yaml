@@ -1,10 +1,10 @@
-# vm1 docker-compose 文件，共三个容器，orderer,peer和cli
+# vm4 docker-compose 文件，共三个容器，orderer,peer和cli
 
 version: '2.1'
 
 volumes:
-  orderer1.dataexchange.com:
-  peer0.org1.dataexchange.com:
+  orderer4.dataexchange.com:
+  peer0.org4.dataexchange.com:
 
 networks:
   dataexchange:
@@ -12,8 +12,8 @@ networks:
   
 services:
 
-  orderer1.dataexchange.com:
-    container_name: orderer1
+  orderer4.dataexchange.com:
+    container_name: orderer4
     image: hyperledger/fabric-orderer:latest
     environment:
       - FABRIC_LOGGING_SPEC=INFO
@@ -38,26 +38,26 @@ services:
     command: orderer
     volumes:
         - ../system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-        - ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer1.dataexchange.com/msp:/var/hyperledger/orderer/msp
-        - ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer1.dataexchange.com/tls/:/var/hyperledger/orderer/tls
-        - orderer1.dataexchange.com:/var/hyperledger/production/orderer
+        - ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer4.dataexchange.com/msp:/var/hyperledger/orderer/msp
+        - ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer4.dataexchange.com/tls/:/var/hyperledger/orderer/tls
+        - orderer4.dataexchange.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
       - 9443:9443
     # 此处需要添加其他docker容器所在ip
     extra_hosts:
-      - "orderer1.dataexchange.com:10.1.2.11"
-      - "orderer2.dataexchange.com:10.1.2.12"
-      - "orderer3.dataexchange.com:10.1.2.13"
-      - "orderer4.dataexchange.com:10.1.2.14"
-      - "orderer5.dataexchange.com:10.1.2.15"
-      - "orderer6.dataexchange.com:10.1.2.16"
+      - "orderer1.dataexchange.com:10.2.2.11"
+      - "orderer2.dataexchange.com:10.2.2.12"
+      - "orderer3.dataexchange.com:10.2.2.13"
+      - "orderer4.dataexchange.com:10.2.2.14"
+      - "orderer5.dataexchange.com:10.2.2.15"
+      - "orderer6.dataexchange.com:10.2.2.16"
     networks:
       - dataexchange
 
 
-  peer0.org1.dataexchange.com:
-    container_name: peer0.org1
+  peer0.org4.dataexchange.com:
+    container_name: peer0.org4
     image: hyperledger/fabric-peer:latest
     environment:
       #Generic peer variables
@@ -71,20 +71,20 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
       # Peer specific variabes
-      - CORE_PEER_ID=peer0.org1.dataexchange.com
-      - CORE_PEER_ADDRESS=peer0.org1.dataexchange.com:7051
+      - CORE_PEER_ID=peer0.org4.dataexchange.com
+      - CORE_PEER_ADDRESS=peer0.org4.dataexchange.com:7051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.org1.dataexchange.com:7052
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org4.dataexchange.com:7052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.dataexchange.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.dataexchange.com:7051
-      - CORE_PEER_LOCALMSPID=Org1MSP
-      - CORE_OPERATIONS_LISTENADDRESS=peer0.org1.dataexchange.com:9444
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org4.dataexchange.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org4.dataexchange.com:7051
+      - CORE_PEER_LOCALMSPID=org4MSP
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.org4.dataexchange.com:9444
     volumes:
         - /var/run/docker.sock:/host/var/run/docker.sock
-        - ../organizations/peerOrganizations/org1.dataexchange.com/peers/peer0.org1.dataexchange.com/msp:/etc/hyperledger/fabric/msp
-        - ../organizations/peerOrganizations/org1.dataexchange.com/peers/peer0.org1.dataexchange.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.org1.dataexchange.com:/var/hyperledger/production
+        - ../organizations/peerOrganizations/org4.dataexchange.com/peers/peer0.org4.dataexchange.com/msp:/etc/hyperledger/fabric/msp
+        - ../organizations/peerOrganizations/org4.dataexchange.com/peers/peer0.org4.dataexchange.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.org4.dataexchange.com:/var/hyperledger/production
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     ports:
@@ -92,17 +92,17 @@ services:
       - 9444:9444
     # 此处需要添加其他docker容器所在ip
     extra_hosts:
-      - "orderer1.dataexchange.com:10.1.2.11"
-      - "orderer2.dataexchange.com:10.1.2.12"
-      - "orderer3.dataexchange.com:10.1.2.13"
-      - "orderer4.dataexchange.com:10.1.2.14"
-      - "orderer5.dataexchange.com:10.1.2.15"
-      - "orderer6.dataexchange.com:10.1.2.16"
+      - "orderer1.dataexchange.com:10.2.2.11"
+      - "orderer2.dataexchange.com:10.2.2.12"
+      - "orderer3.dataexchange.com:10.2.2.13"
+      - "orderer4.dataexchange.com:10.2.2.14"
+      - "orderer5.dataexchange.com:10.2.2.15"
+      - "orderer6.dataexchange.com:10.2.2.16"
     networks:
       - dataexchange
 
 # 此处相比test-net.yaml变化较大
-# 由于此cli只为orderer1 与peer0.org1工作，无需进行切换
+# 由于此cli只为orderer4 与peer0.org4工作，无需进行切换
 # 因此可以预先导入后续会用到的一些环境变量
   cli:
     container_name: cli
@@ -114,17 +114,17 @@ services:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - FABRIC_LOGGING_SPEC=INFO
       #- FABRIC_LOGGING_SPEC=DEBUG
-      # 此cli为peer0 org1 专用，因此导入一些必要的环境变量
-      - ORDERER_ADDRESS=orderer1.dataexchange.com
-      - ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/dataexchange.com/orderers/orderer1.dataexchange.com/msp/tlscacerts/tlsca.dataexchange.com-cert.pem
+      # 此cli为peer0 org4 专用，因此导入一些必要的环境变量
+      - ORDERER_ADDRESS=orderer4.dataexchange.com
+      - ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/dataexchange.com/orderers/orderer4.dataexchange.com/msp/tlscacerts/tlsca.dataexchange.com-cert.pem
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.org1.dataexchange.com:7051
-      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_ADDRESS=peer0.org4.dataexchange.com:7051
+      - CORE_PEER_LOCALMSPID=org4MSP
       - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org1.dataexchange.com/peers/peer0.org1.dataexchange.com/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org1.dataexchange.com/peers/peer0.org1.dataexchange.com/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org1.dataexchange.com/peers/peer0.org1.dataexchange.com/tls/ca.crt
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org1.dataexchange.com/users/Admin@org1.dataexchange.com/msp
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org4.dataexchange.com/peers/peer0.org4.dataexchange.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org4.dataexchange.com/peers/peer0.org4.dataexchange.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org4.dataexchange.com/peers/peer0.org4.dataexchange.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org4.dataexchange.com/users/Admin@org4.dataexchange.com/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
@@ -139,6 +139,6 @@ services:
         # 导入链码
         - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
     depends_on:
-      - peer0.org1.dataexchange.com
+      - peer0.org4.dataexchange.com
     networks:
       - dataexchange

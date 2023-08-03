@@ -3,7 +3,38 @@
 
 #项目配置
 # 项目名
-PROJECT_NAME="fabric-template"
+PROJECT_NAME="BigDataExchange"
+# 通道设置
+CHANNEL_PROFILE="ChannelOne"
+# 通道名
+CHANNEL_NAME="channelone"
+
+# 节点数量
+# 使用eval进行变量名拼接
+# 只需HOSTS的值与相应变量的数量统一，即可通过循环执行操作
+HOSTS=6
+# 节点ip
+HOST1="10.2.2.11"
+HOST2="10.2.2.12"
+HOST3="10.2.2.13"
+HOST4="10.2.2.14"
+HOST5="10.2.2.15"
+HOST6="10.2.2.16"
+# 节点ssh host
+SSH_HOST1="f1"
+SSH_HOST2="f2"
+SSH_HOST3="f3"
+SSH_HOST4="f4"
+SSH_HOST5="f5"
+SSH_HOST6="f6"
+# 组织名
+ORG1="Org1"
+ORG2="Org2"
+ORG3="Org3"
+ORG4="Org4"
+ORG5="Org5"
+ORG6="Org6"
+
 # 通道名
 # CHANNEL_NAME="template-channel"
 #等待raft选出leader
@@ -12,7 +43,7 @@ DELAY=3
 MAX_RETRY=3
 # 是否已经分发iphosts 到各个主机
 # distributeHost 只需运行一次
-IPHOST_DISTRIBUTED=true
+IPHOST_DISTRIBUTED=false
 
 # 此处存一些智能合约基础环境变量
 # 默认所有智能合约都由go编写
@@ -28,9 +59,12 @@ CC_QUERY="GetAllAssets"
 
 
 
-export PEER0_ORG1_CA=${PWD}/organizations/peerOrganizations/org1.template.com/peers/peer0.org1.template.com/tls/ca.crt
-export PEER0_ORG2_CA=${PWD}/organizations/peerOrganizations/org2.template.com/peers/peer0.org2.template.com/tls/ca.crt
-export PEER0_ORG3_CA=${PWD}/organizations/peerOrganizations/org3.template.com/peers/peer0.org3.template.com/tls/ca.crt
+export PEER0_ORG1_CA=${PWD}/organizations/peerOrganizations/org1.dataexchange.com/peers/peer0.org1.dataexchange.com/tls/ca.crt
+export PEER0_ORG2_CA=${PWD}/organizations/peerOrganizations/org2.dataexchange.com/peers/peer0.org2.dataexchange.com/tls/ca.crt
+export PEER0_ORG3_CA=${PWD}/organizations/peerOrganizations/org3.dataexchange.com/peers/peer0.org3.dataexchange.com/tls/ca.crt
+export PEER0_ORG4_CA=${PWD}/organizations/peerOrganizations/org4.dataexchange.com/peers/peer0.org4.dataexchange.com/tls/ca.crt
+export PEER0_ORG5_CA=${PWD}/organizations/peerOrganizations/org5.dataexchange.com/peers/peer0.org5.dataexchange.com/tls/ca.crt
+export PEER0_ORG6_CA=${PWD}/organizations/peerOrganizations/org6.dataexchange.com/peers/peer0.org6.dataexchange.com/tls/ca.crt
 
 # 设置环境变量
 setGlobals() {
@@ -44,17 +78,29 @@ setGlobals() {
   if [ $USING_ORG -eq 1 ]; then
     # export CORE_PEER_LOCALMSPID="Org1MSP"
     # export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
-    # export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.template.com/users/Admin@org1.template.com/msp
-    export CORE_PEER_ADDRESS=peer0.org1.template.com:7051
+    # export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.dataexchange.com/users/Admin@org1.dataexchange.com/msp
+    export CORE_PEER_ADDRESS=peer0.org1.dataexchange.com:7051
   elif [ $USING_ORG -eq 2 ]; then
     # export CORE_PEER_LOCALMSPID="Org2MSP"
     # export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
-    # export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org2.template.com/users/Admin@org2.template.com/msp
-    export CORE_PEER_ADDRESS=peer0.org2.template.com:7051
+    # export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org2.dataexchange.com/users/Admin@org2.dataexchange.com/msp
+    export CORE_PEER_ADDRESS=peer0.org2.dataexchange.com:7051
   elif [ $USING_ORG -eq 3 ]; then
     # export CORE_PEER_LOCALMSPID="Org3MSP"
     # export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
-    export CORE_PEER_ADDRESS=peer0.org3.template.com:7051
+    export CORE_PEER_ADDRESS=peer0.org3.dataexchange.com:7051
+  elif [ $USING_ORG -eq 4 ]; then
+    # export CORE_PEER_LOCALMSPID="Org4MSP"
+    # export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG4_CA
+    export CORE_PEER_ADDRESS=peer0.org4.dataexchange.com:7051
+  elif [ $USING_ORG -eq 5 ]; then
+    # export CORE_PEER_LOCALMSPID="Org5MSP"
+    # export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG5_CA
+    export CORE_PEER_ADDRESS=peer0.org5.dataexchange.com:7051
+  elif [ $USING_ORG -eq 6 ]; then
+    # export CORE_PEER_LOCALMSPID="Org6MSP"
+    # export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG6_CA
+    export CORE_PEER_ADDRESS=peer0.org6.dataexchange.com:7051
   else
     errorln "ORG Unknown"
   fi
@@ -75,9 +121,17 @@ setGlobalsCLI() {
     USING_ORG="${OVERRIDE_ORG}"
   fi
   if [ $USING_ORG -eq 1 ]; then
-    export CORE_PEER_ADDRESS=peer0.org1.template.com:7051
+    export CORE_PEER_ADDRESS=peer0.org1.dataexchange.com:7051
   elif [ $USING_ORG -eq 2 ]; then
-    export CORE_PEER_ADDRESS=peer0.org2.template.com:7051
+    export CORE_PEER_ADDRESS=peer0.org2.dataexchange.com:7051
+  elif [ $USING_ORG -eq 3 ]; then
+    export CORE_PEER_ADDRESS=peer0.org3.dataexchange.com:7051
+  elif [ $USING_ORG -eq 4 ]; then
+    export CORE_PEER_ADDRESS=peer0.org4.dataexchange.com:7051
+  elif [ $USING_ORG -eq 5 ]; then
+    export CORE_PEER_ADDRESS=peer0.org5.dataexchange.com:7051
+  elif [ $USING_ORG -eq 6 ]; then
+    export CORE_PEER_ADDRESS=peer0.org6.dataexchange.com:7051
   else
     errorln "ORG Unknown"
   fi

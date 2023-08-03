@@ -2,10 +2,13 @@
 OrdererOrgs:
 
   - Name: Orderer
-    Domain: template.com
+    Domain: dataexchange.com
     EnableNodeOUs: true
 
     Specs: 
       - Hostname: orderer1
       - Hostname: orderer2
       - Hostname: orderer3
+      - Hostname: orderer4
+      - Hostname: orderer5
+      - Hostname: orderer6

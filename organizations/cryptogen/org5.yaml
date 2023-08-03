@@ -1,11 +1,10 @@
-
 PeerOrgs:
-  - Name: Org3
-    Domain: org3.dataexchange.com
+  - Name: Org5
+    Domain: org5.dataexchange.com
     EnableNodeOUs: true
 
     Template:
       Count: 1
-    
+
     Users:
       Count: 1

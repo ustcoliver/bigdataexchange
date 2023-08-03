@@ -2,7 +2,7 @@
 . scripts/env.sh
 
 function remoteDown(){
-  IP=$(ip route | head -1 | cut -d' ' -f9)
+  IP=$(hostname -I | awk '{print $1}')
   
   println "\n remove blockchain config and cert files on ${IP} ... \n" 
   
@@ -25,10 +25,12 @@ function remoteDown(){
   set -x
   rm -rf chaincode/*
   set +x
+
+  removeIpHost
 }
 
 function remoteUp(){
-  IP=$(ip route | head -1 | cut -d' ' -f9)
+  IP=$(hostname -I | awk '{print $1}')
 
   echo -e "\n start docker containers by docker-compose on ${IP} ... \n"
 
@@ -55,9 +57,17 @@ function remoteInit() {
 }
 
 function addIpHost(){
-  IP=$(ip route | head -1 | cut -d' ' -f9)
+  IP=$(hostname -I | awk '{print $1}')
   infoln "distribute ip hosts and insert to /etc/hosts on $IP..."
   cat ~/${PROJECT_NAME}/iphosts | sudo tee -a /etc/hosts > /dev/null
+  infoln "\n after that ... \n"
+  cat /etc/hosts
+}
+
+function removeIpHost(){
+  IP=$(hostname -I | awk '{print $1}')
+  infoln "restore iphosts to default settings on $IP"
+  head -n 7 /etc/hosts | sudo tee /etc/hosts > /dev/null
   infoln "\n after that ... \n"
   cat /etc/hosts
 }

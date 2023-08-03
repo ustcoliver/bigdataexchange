@@ -27,13 +27,19 @@ function createOrgs() {
 
 #创建系统通道，生成创世区块
 #基于configtx/configtx.yaml
+#接受参数：configPath, profile, channelID, outputBlock
 function createConsortium() {
   infoln "======================================================="
   infoln "Create System Channel, Generating Orderer Genesis block ..."
   infoln "======================================================="
-
+  config_path=$1
+  profile=$2
+  channel_ID=$3
+  output_Block=$4
   set -x
-  configtxgen -configPath ./configtx -profile MultiNodeEtcdRaft -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
+  #configtxgen -configPath ./configtx -profile MultiNodeEtcdRaft -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
+  configtxgen -version
+  configtxgen -configPath $config_path -profile $profile -channelID $channel_ID -outputBlock $output_Block
   res=$?
   { set +x; } 2>/dev/null
   if [ $res -ne 0 ]; then
@@ -43,14 +49,14 @@ function createConsortium() {
 
 #根据 $CHANNEL_PROFILE 生成创建通道交易 $CHANNEL_NAME.tx
 function createChannelTx() {
-  CHANNEL_PROFILE=$1
-  CHANNEL_NAME=$2
+  profile=$1
+  channel_name=$2
   FABRIC_CFG_PATH=${PWD}/configtx
   infoln "==========================================================="
   infoln "generete create channel transaction ${CHANNEL_NAME}.tx ..."
   infoln "==========================================================="
   set -x
-	configtxgen -configPath ./configtx -profile $CHANNEL_PROFILE -outputCreateChannelTx ./channel-artifacts/$CHANNEL_NAME.tx -channelID $CHANNEL_NAME
+	configtxgen -configPath ./configtx -profile $profile -outputCreateChannelTx ./channel-artifacts/$channel_name.tx -channelID $channel_name
 	res=$?
 	{ set +x; } 2>/dev/null
   verifyResult $res "Failed to generate channel configuration transaction..."
@@ -62,7 +68,7 @@ function localGenerate() {
     clean
   fi 
   createOrgs
-  createConsortium
+  createConsortium ./configtx SystemChannel system-channel ./system-genesis-block/genesis.block
 }
 
 # 清理本地生成的文件

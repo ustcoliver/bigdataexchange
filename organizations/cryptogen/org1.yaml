@@ -1,7 +1,7 @@
 
 PeerOrgs:
   - Name: Org1
-    Domain: org1.template.com
+    Domain: org1.dataexchange.com
     EnableNodeOUs: true
 
     Template:

@@ -1,8 +1,8 @@
 ---
 Organizations:
-    # orderer org one including orderer 1,2,3，4，5，6
-    - &OrdererOrg
-      Name: OrdererOrg
+    # orderer org one including orderer 1,2,3
+    - &OrdererOrgOne
+      Name: OrdererOrgOne
       ID: OrdererMSP
       MSPDir: ../organizations/ordererOrganizations/dataexchange.com/msp
       Policies:
@@ -19,12 +19,30 @@ Organizations:
           - orderer1.dataexchange.com:7050
           - orderer2.dataexchange.com:7050
           - orderer3.dataexchange.com:7050
+    # orderer org two including orderer 4,5,6
+    - &OrdererOrgTwo
+      Name: OrdererOrgTwo
+      ID: OrdererMSP
+      MSPDir: ../organizations/ordererOrganizations/dataexchange.com/msp
+      Policies:
+          Readers:
+              Type: Signature
+              Rule: "OR('OrdererMSP.member')"
+          Writers:
+              Type: Signature
+              Rule: "OR('OrdererMSP.member')"
+          Admins:
+              Type: Signature
+              Rule: "OR('OrdererMSP.admin')"
+      OrdererEndpoints:
           - orderer4.dataexchange.com:7050
           - orderer5.dataexchange.com:7050
           - orderer6.dataexchange.com:7050
 
     - &Org1
+
       Name: Org1MSP
+
       ID: Org1MSP
       MSPDir: ../organizations/peerOrganizations/org1.dataexchange.com/msp
       Policies:
@@ -45,7 +63,9 @@ Organizations:
             Port: 7051
 
     - &Org2
+
       Name: Org2MSP
+
       ID: Org2MSP
       MSPDir: ../organizations/peerOrganizations/org2.dataexchange.com/msp
       Policies:
@@ -66,7 +86,9 @@ Organizations:
             Port: 7051
 
     - &Org3
+
       Name: Org3MSP
+
       ID: Org3MSP
       MSPDir: ../organizations/peerOrganizations/org3.dataexchange.com/msp
       Policies:
@@ -180,6 +202,7 @@ Application: &ApplicationDefaults
     Capabilities:
         <<: *ApplicationCapabilities
 
+# orderer default settings, 
 Orderer: &OrdererDefaults
     OrdererType: etcdraft
     BatchTimeout: 2s
@@ -187,39 +210,7 @@ Orderer: &OrdererDefaults
         MaxMessageCount: 10
         AbsoluteMaxBytes: 99 MB
         PreferredMaxBytes: 512 KB
-    EtcdRaft:
-        Consenters:
-            - Host: orderer1.dataexchange.com
-              Port: 7050
-              ClientTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer1.dataexchange.com/tls/server.crt
-              ServerTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer1.dataexchange.com/tls/server.crt
-            - Host: orderer2.dataexchange.com
-              Port: 7050
-              ClientTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer2.dataexchange.com/tls/server.crt
-              ServerTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer2.dataexchange.com/tls/server.crt
-            - Host: orderer3.dataexchange.com
-              Port: 7050
-              ClientTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer3.dataexchange.com/tls/server.crt
-              ServerTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer3.dataexchange.com/tls/server.crt
-            - Host: orderer4.dataexchange.com
-              Port: 7050
-              ClientTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer4.dataexchange.com/tls/server.crt
-              ServerTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer4.dataexchange.com/tls/server.crt
-            - Host: orderer5.dataexchange.com
-              Port: 7050
-              ClientTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer5.dataexchange.com/tls/server.crt
-              ServerTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer5.dataexchange.com/tls/server.crt
-            - Host: orderer6.dataexchange.com
-              Port: 7050
-              ClientTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer6.dataexchange.com/tls/server.crt
-              ServerTLSCert: ../organizations/ordererOrganizations/dataexchange.com/orderers/orderer6.dataexchange.com/tls/server.crt
-    Addresses:
-        - orderer1.dataexchange.com:7050
-        - orderer2.dataexchange.com:7050
-        - orderer3.dataexchange.com:7050
-        - orderer4.dataexchange.com:7050
-        - orderer5.dataexchange.com:7050
-        - orderer6.dataexchange.com:7050
+
     Organizations:
     Policies:
         Readers:
@@ -250,8 +241,8 @@ Channel: &ChannelDefaults
         <<: *ChannelCapabilities
 
 Profiles:
-    # system channel for genesis.block, including org 1,2,3,4,5,6 and orderer1,2,3,4,5,6
-    SystemChannel:
+    # system channel for genesis.block, including org 1,2,3,4,5,6 and raft using orderer1,2,3,4,5,6 
+    SysmtemGenesis:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -268,7 +259,7 @@ Profiles:
                     - *Org4
                     - *Org5
                     - *Org6
-
+    # channel one, including org 1,2,3 and using raft using orderer1,2,3
     ChannelOne:
         Consortium: SampleConsortium
         <<: *ChannelDefaults
@@ -278,6 +269,15 @@ Profiles:
                 - *Org1
                 - *Org2
                 - *Org3
+            Capabilities:
+                <<: *ApplicationCapabilities
+    # channel two, including org 4,5,6 and using raft using orderer4,5,6
+    ChannelTwo:
+        Consortium: SampleConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
                 - *Org4
                 - *Org5
                 - *Org6
