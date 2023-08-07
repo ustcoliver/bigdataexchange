@@ -46,9 +46,9 @@ services:
       - 9443:9443
     # 此处需要添加其他docker容器所在ip
     extra_hosts:
-      - "orderer1.dataexchange.com:10.1.2.11"
-      - "orderer3.dataexchange.com:10.1.2.12"
-      - "orderer3.dataexchange.com:10.1.2.13" 
+      - "orderer1.dataexchange.com:10.2.2.11"
+      - "orderer3.dataexchange.com:10.2.2.12"
+      - "orderer3.dataexchange.com:10.2.2.13" 
       - "orderer4.dataexchange.com:10.2.2.14"
       - "orderer5.dataexchange.com:10.2.2.15"
       - "orderer6.dataexchange.com:10.2.2.16"
@@ -92,9 +92,9 @@ services:
       - 9444:9444
     # 此处需要添加其他docker容器所在ip
     extra_hosts:
-      - "orderer1.dataexchange.com:10.1.2.11"
-      - "orderer3.dataexchange.com:10.1.2.12"
-      - "orderer3.dataexchange.com:10.1.2.13"
+      - "orderer1.dataexchange.com:10.2.2.11"
+      - "orderer3.dataexchange.com:10.2.2.12"
+      - "orderer3.dataexchange.com:10.2.2.13"
       - "orderer4.dataexchange.com:10.2.2.14"
       - "orderer5.dataexchange.com:10.2.2.15"
       - "orderer6.dataexchange.com:10.2.2.16"

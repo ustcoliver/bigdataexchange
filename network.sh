@@ -75,7 +75,7 @@ elif [ "$COMMAND" == "reup" ]; then
 	bash ./network.sh down
 	bash ./network.sh up 
 elif [ "$COMMAND" == "channel" ]; then
-	channel $CHANNEL_NAME 1 2 3 
+	channel $CHANNEL_NAME 1 2 3 4 5 6
 elif [ "$COMMAND" == "restart" ]; then
 	remoteNetworkDown
 	clean
@@ -85,7 +85,7 @@ elif [ "$COMMAND" == "restart" ]; then
 	channel $CHANNEL_NAME 1 2 3
 	updateAnchorPeer $CHANNEL_NAME
 elif [ "$COMMAND" == "deploy" ]; then
-	deploy $CHANNEL_NAME basic chaincode/asset-transfer-basic 1 2 3
+	deploy $CHANNEL_NAME data chaincode/data-exchange 1 2 3 4 5 6
 elif [ "$COMMAND" == "update" ]; then
 	updateAnchorPeer $CHANNEL_NAME
 else
