@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"/home/debian/bigdataexchange/chaincode/data-exchange/chaincode/smartcontract.go"
+	"github.com/ustcoliver/bigdataexchange/chaincode/data-exchange/chaincode"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )

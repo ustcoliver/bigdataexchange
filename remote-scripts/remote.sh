@@ -37,9 +37,9 @@ function remoteUp(){
   set -x
   docker-compose -f docker/docker-compose-up.yaml up -d 
   set +x 
-
-  sleep 3
   echo -e "\n sleep 3 seconds for containers ...\n"
+  sleep 3
+
 
   docker ps --format "{{.ID}}\t{{.Status}}\t{{.Names}}"
 

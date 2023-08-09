@@ -41,6 +41,7 @@ var creatorID string
 // 初始化账本函数，记录合约创建者id
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
 	creatorID, _ = ctx.GetClientIdentity().GetID()
+	dataSetName = append(dataSetName, "test")
 	return nil
 }
 
@@ -105,7 +106,6 @@ func (s *SmartContract) GetAllDataSet(ctx contractapi.TransactionContextInterfac
 	return dataSetName, nil
 }
 
-
 // 创建数据子集函数，传入数据集名称、数据子集名称、描述、hash、创建时间、更新时间、数据集价格，创建数据子集
 func (s *SmartContract) CreateDataSubset(ctx contractapi.TransactionContextInterface, datasetName string, name string, description string, hash []string, createTime string, updateTime string, price int) error {
 	//检查合约调用者是否为合约创建者
@@ -155,7 +155,6 @@ func (s *SmartContract) CreateDataSubset(ctx contractapi.TransactionContextInter
 
 	return nil
 }
-
 
 // 读取数据集函数，传入数据集名称，返回数据集
 func (s *SmartContract) ReadDataSet(ctx contractapi.TransactionContextInterface, name string) (*DataSet, error) {
@@ -333,4 +332,3 @@ func (s *SmartContract) DeleteDataSubset(ctx contractapi.TransactionContextInter
 
 	return nil
 }
-

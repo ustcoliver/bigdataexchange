@@ -1,4 +1,4 @@
-module chaincode
+module github.com/ustcoliver/bigdataexchange/chaincode/data-exchange
 
 go 1.20
 

@@ -45,19 +45,24 @@ services:
       - 7050:7050
       - 9443:9443
     # 此处需要添加其他docker容器所在ip
-    extra_hosts:
-      - "orderer1.dataexchange.com:10.2.2.11"
-      - "orderer2.dataexchange.com:10.2.2.12"
-      - "orderer3.dataexchange.com:10.2.2.13"
-      - "orderer4.dataexchange.com:10.2.2.14"
-      - "orderer5.dataexchange.com:10.2.2.15"
-      - "orderer6.dataexchange.com:10.2.2.16"
+    extra_hosts: &extra_hosts_common
+    - "orderer1.dataexchange.com:10.2.2.11"
+    - "orderer2.dataexchange.com:10.2.2.12"
+    - "orderer3.dataexchange.com:10.2.2.13"
+    - "orderer4.dataexchange.com:10.2.2.14"
+    - "orderer5.dataexchange.com:10.2.2.15"
+    - "orderer6.dataexchange.com:10.2.2.16"
+    - "peer0.org1.dataexchange.com:10.2.2.11"
+    - "peer0.org2.dataexchange.com:10.2.2.12"
+    - "peer0.org3.dataexchange.com:10.2.2.13"
+    - "peer0.org4.dataexchange.com:10.2.2.14"
+    - "peer0.org5.dataexchange.com:10.2.2.15"
     networks:
       - dataexchange
 
 
   peer0.org6.dataexchange.com:
-    container_name: peer0.org6
+    container_name: peer0.org6.dataexchange.com
     image: hyperledger/fabric-peer:latest
     environment:
       #Generic peer variables
@@ -78,7 +83,7 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org6.dataexchange.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org6.dataexchange.com:7051
-      - CORE_PEER_LOCALMSPID=org6MSP
+      - CORE_PEER_LOCALMSPID=Org6MSP
       - CORE_OPERATIONS_LISTENADDRESS=peer0.org6.dataexchange.com:9444
     volumes:
         - /var/run/docker.sock:/host/var/run/docker.sock
@@ -91,13 +96,7 @@ services:
       - 7051:7051
       - 9444:9444
     # 此处需要添加其他docker容器所在ip
-    extra_hosts:
-      - "orderer1.dataexchange.com:10.2.2.11"
-      - "orderer2.dataexchange.com:10.2.2.12"
-      - "orderer3.dataexchange.com:10.2.2.13"
-      - "orderer4.dataexchange.com:10.2.2.14"
-      - "orderer5.dataexchange.com:10.2.2.15"
-      - "orderer6.dataexchange.com:10.2.2.16"
+    extra_hosts: *extra_hosts_common
     networks:
       - dataexchange
 
@@ -119,7 +118,7 @@ services:
       - ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/ordererOrganizations/dataexchange.com/orderers/orderer6.dataexchange.com/msp/tlscacerts/tlsca.dataexchange.com-cert.pem
       - CORE_PEER_ID=cli
       - CORE_PEER_ADDRESS=peer0.org6.dataexchange.com:7051
-      - CORE_PEER_LOCALMSPID=org6MSP
+      - CORE_PEER_LOCALMSPID=Org6MSP
       - CORE_PEER_TLS_ENABLED=true
       - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org6.dataexchange.com/peers/peer0.org6.dataexchange.com/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations/peerOrganizations/org6.dataexchange.com/peers/peer0.org6.dataexchange.com/tls/server.key
@@ -138,6 +137,8 @@ services:
         - ../scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts
         # 导入链码
         - ../chaincode:/opt/gopath/src/github.com/hyperledger/fabric/chaincode
+    # 此处需要添加其他docker容器所在ip
+    extra_hosts: *extra_hosts_common
     depends_on:
       - peer0.org6.dataexchange.com
     networks:

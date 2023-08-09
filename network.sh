@@ -76,13 +76,15 @@ elif [ "$COMMAND" == "reup" ]; then
 	bash ./network.sh up 
 elif [ "$COMMAND" == "channel" ]; then
 	channel $CHANNEL_NAME 1 2 3 4 5 6
+	updateAnchorPeer $CHANNEL_NAME
 elif [ "$COMMAND" == "restart" ]; then
 	remoteNetworkDown
 	clean
 	localGenerate
+	createChannelTx  ChannelOne channelone
 	syncConfig
 	remoteNetworkUp
-	channel $CHANNEL_NAME 1 2 3
+	channel $CHANNEL_NAME 1 2 3 4 5 6
 	updateAnchorPeer $CHANNEL_NAME
 elif [ "$COMMAND" == "deploy" ]; then
 	deploy $CHANNEL_NAME data chaincode/data-exchange 1 2 3 4 5 6

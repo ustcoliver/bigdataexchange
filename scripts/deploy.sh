@@ -44,7 +44,7 @@ function deploy(){
     set +x
   done
 
-  ssh -t $ssh_host_package "docker exec -it cli bash remote-scripts/cli-deployCC.sh commit $CC_NAME $CHANNEL_NAME 1 2 3"
+  ssh -t $ssh_host_package "docker exec -it cli bash remote-scripts/cli-deployCC.sh commit $CC_NAME $CHANNEL_NAME 1 2 3 4 5 6"
 
   for ((i=1;i<=$HOSTS;i++));
   do
@@ -55,7 +55,7 @@ function deploy(){
     set +x
   done
 
-  ssh -t $ssh_host_package "docker exec -it cli bash remote-scripts/cli-deployCC.sh init $CC_NAME $CHANNEL_NAME 1 2 3"
+  ssh -t $ssh_host_package "docker exec -it cli bash remote-scripts/cli-deployCC.sh init $CC_NAME $CHANNEL_NAME 1 2 3 4 5 6"
 
   for ((i=1;i<=$HOSTS;i++));
   do

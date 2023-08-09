@@ -1,0 +1,49 @@
+version: "2"
+
+volumes:
+  orderer1.dataexchange.com:
+  peer0.org1.dataexchange.com:
+
+networks:
+  dataexchange:
+    name: dataexchange
+
+services:
+  orderer1.dataexchange.com:
+    extends:
+      file: common.yaml
+      service: orderer
+    container_name: orderer1.dataexchange.com
+    environment:
+      - PROJECT_NAME
+      - ORDERER_MSP
+      - ORDERER_ID
+
+  peer0.org1.dataexchange.com:
+    extends:
+      file: common.yaml
+      service: peer
+    container_name: peer0.org1.dataexchange.com
+    environment:
+      - PROJECT_NAME
+      - PEER_ID
+      - PEER_MSP
+      - NETWORK_NAME
+      - ORG_ID
+
+  cli.dataexchange.com:
+    extends:
+      file: common.yaml
+      service: cli
+    container_name: cli.org1.dataexchange.com
+    environment:
+      - PROJECT_NAME
+      - PEER_ID
+      - PEER_MSP
+      - NETWORK_NAME
+      - ORG_ID
+    depends_on:
+      - peer0.org1.dataexchange.com
+      - orderer1.dataexchange.com
+    volumes:
+      - ./chaincode/:/opt/gopath/src/github.com/chaincode

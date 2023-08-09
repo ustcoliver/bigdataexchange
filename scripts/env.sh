@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+. scripts/utils.sh
+
 #项目配置
 # 项目名
 PROJECT_NAME="BigDataExchange"
@@ -55,7 +57,7 @@ CC_INIT_FCN="InitLedger"
 CC_END_POLICY="NA"
 CC_COLL_CONFIG="NA"
 VERBOSE="false"
-CC_QUERY="GetAllAssets"
+CC_QUERY="GetAllDataSet"
 
 
 
@@ -155,4 +157,6 @@ parsePeerConnectionParameters() {
   done
   # remove leading space for output
   PEERS="$(echo -e "$PEERS" | sed -e 's/^[[:space:]]*//')"
+  infoln "PEERS: $PEERS"
+  infoln "PEER_CONN_PARMS: $PEER_CONN_PARMS"
 }
