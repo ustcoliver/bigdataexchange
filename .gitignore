@@ -4,5 +4,5 @@ channel-artifacts
 system-genesis-block
 *.log
 vendor
-*.tag.gz
+*.tar.gz
 log.txt
